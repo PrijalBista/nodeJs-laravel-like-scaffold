@@ -56,7 +56,7 @@ PROJECT_NAME = process.argv[2];
 		//Create simple package.json file
 
 		packageJson = {
-		  "name": PROJECT_NAME,
+		  "name": PROJECT_NAME.split('/').pop(),
 		  "version": "1.0.0",
 		  "description": "",
 		  "main": "index.js",
