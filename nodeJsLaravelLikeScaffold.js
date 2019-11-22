@@ -69,6 +69,7 @@ PROJECT_NAME = process.argv[2];
 		    "express": "latest",
 		    "morgan" : "latest",
 		    "app-module-path": "latest",
+		    "dotenv": "latest",
 		  }
 		};
 
@@ -87,6 +88,9 @@ PROJECT_NAME = process.argv[2];
 		indexFile = `
 // adding project directory to search path of require()
 require('app-module-path').addPath(__dirname);
+
+// require and load .env
+require('dotenv').config();
 
 const express = require("express");
 const app = express();
@@ -120,7 +124,7 @@ app.use( (err, req, res, next) => {
 	res.send("ERROR OCCURED");
 });
 
-app.listen(3000, () => {
+app.listen( process.env.PORT || 3000, () => {
 	console.log("Server running at port 3000");
 });  `;
 
@@ -134,7 +138,8 @@ const router = require("express").Router();
 const HomeController = require("App/Http/Controllers/HomeController");
 
 router.get("/", (req,res) => {
-	res.send("Welcome to custom Express Generator :)");
+	res.send("Project <strong>"+process.env.APP_NAME + "</strong> is Ready !");
+	// Access variables from .env file with: process.env.variable_name
 });
 
 // Using a Controller
@@ -185,6 +190,19 @@ router.get("/", (req,res) => {
 module.exports = router;  `;
 
 		console.log(await createFile(PROJECT_NAME+"/routes/api.js", apiRouteFile));
+
+		//create .env file
+		envFile = `
+APP_NAME=${PROJECT_NAME.split('/').pop()}
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=myDatabaseName
+DB_USERNAME=root
+DB_PASSWORD=
+`;
+		console.log(await createFile(PROJECT_NAME+"/.env", envFile));
 
 		console.log("-------------------------------------------------------------------------------------");
 		console.log("PROJECT "+PROJECT_NAME+" Created ! Now You can");

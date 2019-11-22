@@ -8,3 +8,4 @@ Well I do and would love to bring similar structure and environment in node. So 
 1. express
 2. morgan
 3. app-module-path
+4. dotenv
