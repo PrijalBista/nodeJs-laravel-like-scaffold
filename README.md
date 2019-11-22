@@ -7,3 +7,4 @@ Well I do and would love to bring similar structure and environment in node. So 
 ### Current List Of Dependencies
 1. express
 2. morgan
+3. app-module-path

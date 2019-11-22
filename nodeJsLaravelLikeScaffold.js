@@ -56,7 +56,7 @@ PROJECT_NAME = process.argv[2];
 		//Create simple package.json file
 
 		packageJson = {
-		  "name": PROJECT_NAME,
+		  "name": PROJECT_NAME.split('/').pop(),
 		  "version": "1.0.0",
 		  "description": "",
 		  "main": "index.js",
@@ -67,7 +67,8 @@ PROJECT_NAME = process.argv[2];
 		  "license": "ISC",
 		  "dependencies": {
 		    "express": "latest",
-		    "morgan" : "latest"
+		    "morgan" : "latest",
+		    "app-module-path": "latest",
 		  }
 		};
 
@@ -84,6 +85,9 @@ PROJECT_NAME = process.argv[2];
 		//Create index.js
 
 		indexFile = `
+// adding project directory to search path of require()
+require('app-module-path').addPath(__dirname);
+
 const express = require("express");
 const app = express();
 
@@ -127,7 +131,7 @@ app.listen(3000, () => {
 		webRouteFile = `
 const router = require("express").Router();
 
-const HomeController = require("../App/Http/Controllers/HomeController");
+const HomeController = require("App/Http/Controllers/HomeController");
 
 router.get("/", (req,res) => {
 	res.send("Welcome to custom Express Generator :)");
